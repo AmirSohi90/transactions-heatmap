@@ -33,7 +33,6 @@ export const transactionData = createSlice({
     },
 });
 
-// TODO WILL NEED TO WRITE SELECTORS WHEN THE TIME COMES HERE
 export const selectTransActionsThroughoutTheYear = (state: RootState) => state.transactions.transactionsThroughoutTheYear;
 
 export default transactionData.reducer;
