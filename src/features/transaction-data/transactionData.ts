@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getYearlyTransactions } from "./transactionDataApi";
+import { Transactions } from "./transactionType";
 
 export interface TransactionsState {
-    transActionsThroughoutTheYear: null
+    transActionsThroughoutTheYear: Transactions | null;
 }
 
 const initialState: TransactionsState = {
@@ -11,7 +13,8 @@ const initialState: TransactionsState = {
 export const fetchYearlyTransactions = createAsyncThunk(
     'counter/fetchYearlyTransactions',
     async () => {
-        // THIS IS WHERE WE GET THE TRANSACTION DATA
+        const response = await getYearlyTransactions();
+        return response.data;
     }
 );
 
@@ -22,7 +25,7 @@ export const transactionData = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchYearlyTransactions.fulfilled, (state, action) => {
-                // TODO update state here
+                state.transActionsThroughoutTheYear = action.payload.transactionsThroughoutTheYear;
             })
     },
 });
