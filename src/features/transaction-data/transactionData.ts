@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getYearlyTransactions } from "./transactionDataApi";
 import { Transactions } from "./transactionType";
 
+// TODO might be worth writing tests for the reducer not just the getYearlyTransactions function
+
 export interface TransactionsState {
     transActionsThroughoutTheYear: Transactions | null;
 }
