@@ -1,4 +1,4 @@
-import { Transaction, TransactionKey, Transactions, TransactionType, OntoTransaction } from "./transactionType";
+import { Transaction, Transactions, TransactionType, OntoTransaction } from "./transactionType";
 import transactionData from "../../data/transaction-data.json";
 import { getNumberOfDaysInTheYear, formatDateToYYYYMMDD } from '../../shared/helperFunctions/formatDates'
 
