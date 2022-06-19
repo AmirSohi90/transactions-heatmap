@@ -7,10 +7,14 @@ import { Transactions } from "./transactionType";
 
 export interface TransactionsState {
     transactionsThroughoutTheYear: Transactions | null;
+    highestSuccessfulTotal: number;
+    highestFailedTotal: number;
 }
 
 const initialState: TransactionsState = {
     transactionsThroughoutTheYear: null,
+    highestSuccessfulTotal: 0,
+    highestFailedTotal: 0
 };
 
 export const fetchYearlyTransactions = createAsyncThunk(
@@ -29,10 +33,14 @@ export const transactionData = createSlice({
         builder
             .addCase(fetchYearlyTransactions.fulfilled, (state, action) => {
                 state.transactionsThroughoutTheYear = action.payload.transactionsThroughoutTheYear;
+                state.highestSuccessfulTotal = action.payload.highestSuccessfulTotal;
+                state.highestFailedTotal = action.payload.highestFailedTotal;
             })
     },
 });
 
 export const selectTransActionsThroughoutTheYear = (state: RootState) => state.transactions.transactionsThroughoutTheYear;
+export const selectHighestSuccessfulTotal = (state: RootState) => state.transactions.highestSuccessfulTotal;
+export const selectHighestFailedTotal = (state: RootState) => state.transactions.highestFailedTotal;
 
 export default transactionData.reducer;
