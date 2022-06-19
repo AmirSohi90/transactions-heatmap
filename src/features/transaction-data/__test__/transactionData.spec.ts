@@ -1,6 +1,7 @@
-import { getYearlyTransactions } from './transactionDataApi'
+import { getYearlyTransactions } from '../transactionDataApi'
+import dates from '../../../shared/constants/dates'
 
-jest.mock('../../data/transaction-data.json', () => ([
+jest.mock('../../../data/transaction-data.json', () => ([
     {
         "transactionType": "failed",
         "date": "2019-01-01",
@@ -21,13 +22,15 @@ jest.mock('../../data/transaction-data.json', () => ([
     }, { "transactionType": "success", "date": "2019-01-02", "amount": 20 }]));
 
 describe('transactionData reducer', () => {
-    it('should return the correct formatted data', () => {
-        const data = getYearlyTransactions();
+    it('should return the correct formatted data', async () => {
+        dates.startDate = new Date('2019-01-01');
+        dates.endDate = new Date('2019-01-03');
+        const data = await getYearlyTransactions();
         expect(data).toEqual({
             data: {
                 highestFailedAmount: 30,
                 highestSuccessfulAmount: 60,
-                transActionsThroughoutTheYear: {
+                transactionsThroughoutTheYear: {
                     "2019-01-01": {
                         date: "2019-01-01",
                         failedAmount: 30,
