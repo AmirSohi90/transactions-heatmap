@@ -1,0 +1,38 @@
+.cells-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 170px;
+}
+
+.cell {
+    height: 15px;
+    width: 15px;
+    border: 1px solid black;
+    margin: 3px;
+    border-radius: 2px;
+}
+
+.neutral {
+    background-color: #e6ecf5;
+}
+
+.light-green {
+    background-color: #39d353;
+}
+
+.dark-green {
+    background-color: #006d32;
+}
+
+.light-red {
+    background-color: #bd4440;
+}
+
+.dark-red {
+    background-color: #db251f;
+}
+
+.neutral {
+    background-color: #ad9e9e;
+}

@@ -28,20 +28,20 @@ describe('transactionData reducer', () => {
         const data = await getYearlyTransactions();
         expect(data).toEqual({
             data: {
-                highestFailedAmount: 30,
-                highestSuccessfulAmount: 60,
+                highestFailedTotal: 30,
+                highestSuccessfulTotal: 60,
                 transactionsThroughoutTheYear: {
                     "2019-01-01": {
                         date: "2019-01-01",
-                        failedAmount: 30,
+                        failedTotal: 30,
                         numberOfTransactions: -2,
-                        successfulAmount: 20,
+                        successfulTotal: 20,
                     },
                     "2019-01-02": {
                         date: "2019-01-02",
-                        failedAmount: 10,
+                        failedTotal: 10,
                         numberOfTransactions: 2,
-                        successfulAmount: 60,
+                        successfulTotal: 60,
                     },
                 },
             },

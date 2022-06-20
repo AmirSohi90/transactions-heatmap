@@ -1,7 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import transactionsReducer from '../features/transaction-data/transactionData'
 
 export const store = configureStore({
-    reducer: {},
+    reducer: {
+        transactions: transactionsReducer
+    },
 });
 
 export type AppDispatch = typeof store.dispatch;

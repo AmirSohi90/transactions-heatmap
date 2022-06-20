@@ -11,8 +11,8 @@ export type OntoTransaction = {
 
 export type Transaction = {
     date: string;
-    successfulAmount: number;
-    failedAmount: number;
+    successfulTotal: number;
+    failedTotal: number;
     numberOfTransactions: number;
 }
 
