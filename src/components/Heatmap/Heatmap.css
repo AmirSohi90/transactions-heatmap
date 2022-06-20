@@ -17,6 +17,18 @@
     border-radius: 2px;
 }
 
+.months-wrapper {
+    display: flex;
+    padding-left: 30px;
+}
+
+.month {
+    width: 15px;
+    border: 1px solid transparent;
+    margin: 2px;
+    font-size: 10px;
+}
+
 .days-wrapper {
     display: inline-flex;
     flex-direction: column;
@@ -51,4 +63,19 @@
 
 .neutral {
     background-color: #ad9e9e;
+}
+
+.Jan ~ .Jan,
+.Feb ~ .Feb,
+.Mar ~ .Mar,
+.Apr ~ .Apr,
+.May ~ .May,
+.Jun ~ .Jun,
+.July ~ .July,
+.Aug ~ .Aug,
+.Sept ~ .Sept,
+.Oct ~ .Oct,
+.Nov ~ .Nov,
+.Dec ~ .Dec {
+    visibility: hidden;
 }
