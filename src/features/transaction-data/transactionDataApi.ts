@@ -34,10 +34,13 @@ const formatTransaction = ({
                                formattedTransaction,
                                ontoTransaction
                            }: FormatTransaction) => {
-    if (transactionType === TransactionType.Success) {
-        formattedTransaction.successfulTotal = calculateTotal(formattedTransaction.successfulTotal, ontoTransaction.amount)
-    } else if (transactionType === TransactionType.Failed) {
-        formattedTransaction.failedTotal = calculateTotal(formattedTransaction.failedTotal, ontoTransaction.amount)
+    switch(transactionType) {
+        case TransactionType.Success:
+            formattedTransaction.successfulTotal = calculateTotal(formattedTransaction.successfulTotal, ontoTransaction.amount);
+            break;
+        case TransactionType.Failed:
+            formattedTransaction.failedTotal = calculateTotal(formattedTransaction.failedTotal, ontoTransaction.amount)
+            break;
     }
 
     formattedTransaction.numberOfTransactions = calculateNumberOfTransactions(transactionType, formattedTransaction.numberOfTransactions)
