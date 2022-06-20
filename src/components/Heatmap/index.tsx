@@ -5,6 +5,8 @@ import {
     fetchYearlyTransactions,
     selectTransActionsThroughoutTheYear
 } from "../../features/transaction-data/transactionData";
+import './Heatmap.css'
+
 
 
 export const TransactionHeatmap: React.FC = () => {

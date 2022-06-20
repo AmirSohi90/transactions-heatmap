@@ -1,6 +1,5 @@
 import React from 'react';
 import { Transactions } from "../../features/transaction-data/transactionType";
-import './Heatmap.css'
 import { Cells } from "./Cells";
 
 type HeatmapViewProps = {
