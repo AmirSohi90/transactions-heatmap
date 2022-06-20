@@ -2,6 +2,12 @@ import { Transaction, Transactions, TransactionType, OntoTransaction } from "./t
 import transactionData from "../../data/transaction-data.json";
 import { getNumberOfDaysInTheYear, formatDateToYYYYMMDD } from '../../shared/helperFunctions/formatDates'
 
+type FormatTransaction = {
+    transactionType: string;
+    formattedTransaction: Transaction;
+    ontoTransaction: OntoTransaction;
+}
+
 const getDefaultTransactionData = (): Transactions => {
     const numberOfDaysInTheYear = getNumberOfDaysInTheYear()
     const arrayOfNumberOfDaysInTheYear = Array.from(new Array(numberOfDaysInTheYear));
@@ -25,7 +31,7 @@ const formatTransaction = ({
                                transactionType,
                                formattedTransaction,
                                ontoTransaction
-                           }: { transactionType: string, formattedTransaction: Transaction, ontoTransaction: OntoTransaction }) => {
+                           }: FormatTransaction) => {
     if (transactionType === TransactionType.Success) {
         formattedTransaction.successfulTotal = calculateNewTotal(formattedTransaction.successfulTotal, ontoTransaction.amount)
     } else if (transactionType === TransactionType.Failed) {
