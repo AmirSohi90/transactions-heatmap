@@ -186,4 +186,36 @@ describe('TransactionHeatmap', () => {
             })
         })
     })
+
+    describe('when the transactions are null', () => {
+        const store = mockStore({
+            transactions: {
+                transactionsThroughoutTheYear: null,
+            }
+        })
+
+        it('should not render the cells', () => {
+            render((<Provider store={store}><TransactionHeatmap/></Provider>));
+            expect(screen.queryByRole('cell')).not.toBeInTheDocument();
+        })
+
+        it('should not render the months', () => {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+            render((<Provider store={store}><TransactionHeatmap/></Provider>));
+            months.forEach(month => expect(screen.queryByText(new RegExp(month, "i"))).not.toBeInTheDocument())
+        })
+
+        it('should not render the days', () => {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
+
+            render((<Provider store={store}><TransactionHeatmap/></Provider>));
+            days.forEach(day => expect(screen.queryByText(new RegExp(day, "i"))).not.toBeInTheDocument())
+        })
+
+        it('should render the loading component', async () => {
+            render((<Provider store={store}><TransactionHeatmap/></Provider>));
+            expect(await screen.findByText('Loading...')).toBeInTheDocument();
+        })
+    })
 })
