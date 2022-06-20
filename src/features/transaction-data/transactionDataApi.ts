@@ -2,7 +2,13 @@ import { Transaction, Transactions, TransactionType, OntoTransaction } from "./t
 import transactionData from "../../data/transaction-data.json";
 import { getNumberOfDaysInTheYear, formatDateToYYYYMMDD } from '../../shared/helperFunctions/formatDates'
 
-const daysOfTheYear = (): Transactions => {
+type FormatTransaction = {
+    transactionType: string;
+    formattedTransaction: Transaction;
+    ontoTransaction: OntoTransaction;
+}
+
+const getDefaultTransactionData = (): Transactions => {
     const numberOfDaysInTheYear = getNumberOfDaysInTheYear()
     const arrayOfNumberOfDaysInTheYear = Array.from(new Array(numberOfDaysInTheYear));
 
@@ -19,23 +25,26 @@ const daysOfTheYear = (): Transactions => {
     }, {})
 }
 
+const calculateNewTotal = (transactionTotal: number, ontoTransactionTotal: number): number => Number((transactionTotal + ontoTransactionTotal).toFixed(2));
+
 const formatTransaction = ({
                                transactionType,
                                formattedTransaction,
                                ontoTransaction
-                           }: { transactionType: string, formattedTransaction: Transaction, ontoTransaction: OntoTransaction }) => {
+                           }: FormatTransaction) => {
     if (transactionType === TransactionType.Success) {
-        formattedTransaction.successfulTotal = Number((formattedTransaction.successfulTotal + ontoTransaction.amount).toFixed(2));
-        formattedTransaction.numberOfTransactions = formattedTransaction.numberOfTransactions + 1;
+        formattedTransaction.successfulTotal = calculateNewTotal(formattedTransaction.successfulTotal, ontoTransaction.amount)
     } else if (transactionType === TransactionType.Failed) {
-        formattedTransaction.failedTotal = Number((formattedTransaction.failedTotal + ontoTransaction.amount).toFixed(2));
-        formattedTransaction.numberOfTransactions = formattedTransaction.numberOfTransactions - 1;
+        formattedTransaction.failedTotal = calculateNewTotal(formattedTransaction.failedTotal, ontoTransaction.amount)
     }
+
+    formattedTransaction.numberOfTransactions = transactionType === TransactionType.Success ? formattedTransaction.numberOfTransactions + 1 : formattedTransaction.numberOfTransactions - 1
     return formattedTransaction
-}
+};
 
 const formattedYearlyTransactions = (): Transactions => {
-    const initialTransactions = daysOfTheYear();
+    const initialTransactions = getDefaultTransactionData();
+
     return transactionData.reduce((transactions: Transactions, transaction) => {
             const dateOfTransaction = transactions[transaction.date as keyof Transactions]
             if (dateOfTransaction !== undefined) {
@@ -48,12 +57,13 @@ const formattedYearlyTransactions = (): Transactions => {
             return transactions;
         },
         initialTransactions)
-}
+};
 
 const getHighestYearlyTransaction = (yearlyTransactions: Transactions): { highestSuccessfulTotal: number, highestFailedTotal: number } => {
-    const transactionKeys = Object.keys(yearlyTransactions);
-    const highestSuccessfulTotal = Math.max(...transactionKeys.map(key => yearlyTransactions[key]).filter(transaction => transaction.numberOfTransactions > 0).map(transaction => transaction.successfulTotal))
-    const highestFailedTotal = Math.max(...transactionKeys.map(key => yearlyTransactions[key]).filter(transaction => transaction.numberOfTransactions < 0).map(transaction => transaction.failedTotal))
+    const arrayOfTransactions = Object.keys(yearlyTransactions).map(key => yearlyTransactions[key]);
+
+    const highestSuccessfulTotal = Math.max(...arrayOfTransactions.filter(transaction => transaction.numberOfTransactions > 0).map(transaction => transaction.successfulTotal))
+    const highestFailedTotal = Math.max(...arrayOfTransactions.filter(transaction => transaction.numberOfTransactions < 0).map(transaction => transaction.failedTotal))
 
     return { highestSuccessfulTotal, highestFailedTotal }
 }
@@ -61,7 +71,11 @@ const getHighestYearlyTransaction = (yearlyTransactions: Transactions): { highes
 export const getYearlyTransactions = () => {
     return new Promise<{ data: { transactionsThroughoutTheYear: Transactions, highestSuccessfulTotal: number, highestFailedTotal: number } }>((resolve) => {
         const transactionsThroughoutTheYear = formattedYearlyTransactions();
-        const { highestSuccessfulTotal, highestFailedTotal } = getHighestYearlyTransaction(transactionsThroughoutTheYear);
+
+        const {
+            highestSuccessfulTotal,
+            highestFailedTotal
+        } = getHighestYearlyTransaction(transactionsThroughoutTheYear);
 
         resolve({
             data: {
