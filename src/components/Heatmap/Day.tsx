@@ -15,5 +15,5 @@ enum DayNames {
 }
 
 export const Day: React.FC<DayProps> = ({ index }) => {
-    return <div className="weekday"><p>{DayNames[index]}</p></div>
+    return <span className="weekday">{DayNames[index]}</span>
 }
