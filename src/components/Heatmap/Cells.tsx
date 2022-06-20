@@ -1,5 +1,6 @@
 import React from "react";
 import dates from "../../shared/constants/dates";
+import { getBackgroundColour } from "../..//shared/helperFunctions/getBackgroundColour";
 import { useAppSelector } from "../../app/hooks";
 import { Cell } from './Cell'
 import './Heatmap.css'
@@ -10,24 +11,6 @@ import {
 } from "../../features/transaction-data/transactionData";
 
 import { Transactions } from "../../features/transaction-data/transactionType";
-
-const getCellColour = ({
-                           numberOfTransactions,
-                           successfulTotal,
-                           highestSuccessfulTotal,
-                           failedTotal,
-                           highestFailedTotal
-                       }: {
-    numberOfTransactions: number; successfulTotal: number; highestSuccessfulTotal: number, failedTotal: number;
-    highestFailedTotal: number;
-}) => {
-    if (numberOfTransactions > 0 || (numberOfTransactions === 0 && successfulTotal > failedTotal)) {
-        return successfulTotal / highestSuccessfulTotal > 0.5 ? 'dark-green' : 'light-green';
-    } else if (numberOfTransactions < 0 || numberOfTransactions === 0 && successfulTotal < failedTotal) {
-        return failedTotal / highestFailedTotal > 0.5 ? 'dark-red' : 'light-red';
-    }
-    return 'neutral';
-}
 
 
 type CellsProps = {
@@ -51,7 +34,7 @@ export const Cells: React.FC<CellsProps> = ({ transactions }) => {
                         failedTotal
                     } = transactions[transactionDate]
 
-                    const backgroundColour = getCellColour({
+                    const backgroundColour = getBackgroundColour({
                         numberOfTransactions,
                         successfulTotal,
                         highestSuccessfulTotal,
@@ -59,7 +42,7 @@ export const Cells: React.FC<CellsProps> = ({ transactions }) => {
                         highestFailedTotal
                     })
 
-                    return (<Cell key={transactionDate} backgroundColour={backgroundColour}/>)
+                    return <Cell key={transactionDate} backgroundColour={backgroundColour}/>
                 })
             }
         </>
