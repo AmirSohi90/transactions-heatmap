@@ -7,6 +7,31 @@ import dates from '../../../shared/constants/dates'
 
 const mockStore = configureMockStore([thunk]);
 
+const aboveAverageSuccessfulDay = {
+    successfulTotal: 251,
+    failedTotal: 20,
+    numberOfTransactions: 1,
+}
+
+const belowAverageSuccessfulDay = {
+    successfulTotal: 249,
+    failedTotal: 20,
+    numberOfTransactions: 1,
+}
+
+const aboveAverageFailedDay = {
+    failedTotal: 251,
+    successfulTotal: 20,
+
+    numberOfTransactions: -1,
+}
+
+const belowAverageFailedDay = {
+    failedTotal: 249,
+    successfulTotal: 20,
+    numberOfTransactions: -1,
+}
+
 
 describe('TransactionHeatmap', () => {
     beforeEach(() => {
@@ -45,10 +70,7 @@ describe('TransactionHeatmap', () => {
             const store = mockStore({
                 transactions: {
                     transactionsThroughoutTheYear: {
-                        '2017-01-01': {
-                            successfulTotal: 251,
-                            numberOfTransactions: 1,
-                        }
+                        '2017-01-01': aboveAverageSuccessfulDay
                     },
                     highestSuccessfulTotal: 500
                 }
@@ -62,10 +84,7 @@ describe('TransactionHeatmap', () => {
             const store = mockStore({
                 transactions: {
                     transactionsThroughoutTheYear: {
-                        '2017-01-01': {
-                            successfulTotal: 249,
-                            numberOfTransactions: 1,
-                        }
+                        '2017-01-01': belowAverageSuccessfulDay
                     },
                     highestSuccessfulTotal: 500
                 }
@@ -81,10 +100,7 @@ describe('TransactionHeatmap', () => {
             const store = mockStore({
                 transactions: {
                     transactionsThroughoutTheYear: {
-                        '2017-01-01': {
-                            failedTotal: 249,
-                            numberOfTransactions: -1,
-                        }
+                        '2017-01-01': belowAverageFailedDay
                     },
                     highestFailedTotal: 500
                 }
@@ -98,10 +114,7 @@ describe('TransactionHeatmap', () => {
             const store = mockStore({
                 transactions: {
                     transactionsThroughoutTheYear: {
-                        '2017-01-01': {
-                            failedTotal: 251,
-                            numberOfTransactions: -1,
-                        }
+                        '2017-01-01': aboveAverageFailedDay
                     },
                     highestFailedTotal: 500
                 }
@@ -114,33 +127,25 @@ describe('TransactionHeatmap', () => {
 
     describe('when the numberOfTransactions is 0', () => {
         describe("when the successful amount is more than the failed amount", () => {
-            it('should render the light green cell if the successful amount is more than half of highestSuccessfulTotal', () => {
+            it('should render the dark green cell if the successful amount is more than half of highestSuccessfulTotal', () => {
                 const store = mockStore({
                     transactions: {
                         transactionsThroughoutTheYear: {
-                            '2017-01-01': {
-                                successfulTotal: 251,
-                                failedTotal: 20,
-                                numberOfTransactions: 0,
-                            }
+                            '2017-01-01': { ...aboveAverageSuccessfulDay, numberOfTransactions: 0 }
                         },
                         highestSuccessfulTotal: 500
                     }
                 });
 
-                render(<Provider store={store}><TransactionHeatmap /></Provider>)
+                render(<Provider store={store}><TransactionHeatmap/></Provider>)
                 expect(screen.getByRole('cell')).toHaveClass('dark-green');
             })
 
-            it('should render the dark green cell if the successful amount is less than half of highestSuccessfulTotal', () => {
+            it('should render the light green cell if the successful amount is less than half of highestSuccessfulTotal', () => {
                 const store = mockStore({
                     transactions: {
                         transactionsThroughoutTheYear: {
-                            '2017-01-01': {
-                                successfulTotal: 249,
-                                failedTotal: 20,
-                                numberOfTransactions: 1,
-                            }
+                            '2017-01-01': { ...belowAverageSuccessfulDay, numberOfTransactions: 0 }
                         },
                         highestSuccessfulTotal: 500
                     }
@@ -156,11 +161,7 @@ describe('TransactionHeatmap', () => {
                 const store = mockStore({
                     transactions: {
                         transactionsThroughoutTheYear: {
-                            '2017-01-01': {
-                                failedTotal: 251,
-                                numberOfTransactions: 0,
-                                successfulTotal: 20,
-                            }
+                            '2017-01-01': { ...aboveAverageFailedDay, numberOfTransactions: 0 }
                         },
                         highestFailedTotal: 500
                     }
@@ -174,11 +175,7 @@ describe('TransactionHeatmap', () => {
                 const store = mockStore({
                     transactions: {
                         transactionsThroughoutTheYear: {
-                            '2017-01-01': {
-                                failedTotal: 249,
-                                successfulTotal: 20,
-                                numberOfTransactions: 0,
-                            }
+                            '2017-01-01': { ...belowAverageFailedDay, numberOfTransactions: 0 }
                         },
                         highestFailedTotal: 500
                     }
