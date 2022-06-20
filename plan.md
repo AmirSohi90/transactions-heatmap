@@ -34,3 +34,13 @@ EDGE CASE TO THINK ABOUT: when rendering the cells need to make sure that the da
 EDGE CASE TO THINK ABOUT - neutral days. If it comes out to no transactions or the numberOfTransactions is 0 compare the total amounts of the two and whichever is higher use that as the basis of above
 
 EDGE CASE TO THINK ABOUT - neutral days + same amounnt of high and low transactions totals. Keep it a neutral colour
+
+
+After finishing:
+
+Things I'd have liked to have done with more time:
+
+- test coverage over reducer
+- implement eslint
+- better styling tool like sass or StyledComponents
+- With loads more time a small backend application to format the data after making a get request. I feel like it shouldn't be done on the front end due to how much formatting needs to be done

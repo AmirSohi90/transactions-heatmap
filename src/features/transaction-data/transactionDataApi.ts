@@ -8,6 +8,10 @@ type FormatTransaction = {
     ontoTransaction: OntoTransaction;
 }
 
+const calculateTotal = (transactionTotal: number, ontoTransactionTotal: number): number => Number((transactionTotal + ontoTransactionTotal).toFixed(2));
+
+const calculateNumberOfTransactions = (transactionType: string, numberOfTransactions: number): number => transactionType === TransactionType.Success ? numberOfTransactions + 1 : numberOfTransactions - 1;
+
 const getDefaultTransactionData = (): Transactions => {
     const numberOfDaysInTheYear = getNumberOfDaysInTheYear()
     const arrayOfNumberOfDaysInTheYear = Array.from(new Array(numberOfDaysInTheYear));
@@ -25,20 +29,18 @@ const getDefaultTransactionData = (): Transactions => {
     }, {})
 }
 
-const calculateNewTotal = (transactionTotal: number, ontoTransactionTotal: number): number => Number((transactionTotal + ontoTransactionTotal).toFixed(2));
-
 const formatTransaction = ({
                                transactionType,
                                formattedTransaction,
                                ontoTransaction
                            }: FormatTransaction) => {
     if (transactionType === TransactionType.Success) {
-        formattedTransaction.successfulTotal = calculateNewTotal(formattedTransaction.successfulTotal, ontoTransaction.amount)
+        formattedTransaction.successfulTotal = calculateTotal(formattedTransaction.successfulTotal, ontoTransaction.amount)
     } else if (transactionType === TransactionType.Failed) {
-        formattedTransaction.failedTotal = calculateNewTotal(formattedTransaction.failedTotal, ontoTransaction.amount)
+        formattedTransaction.failedTotal = calculateTotal(formattedTransaction.failedTotal, ontoTransaction.amount)
     }
 
-    formattedTransaction.numberOfTransactions = transactionType === TransactionType.Success ? formattedTransaction.numberOfTransactions + 1 : formattedTransaction.numberOfTransactions - 1
+    formattedTransaction.numberOfTransactions = calculateNumberOfTransactions(transactionType, formattedTransaction.numberOfTransactions)
     return formattedTransaction
 };
 
