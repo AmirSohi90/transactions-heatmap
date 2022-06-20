@@ -24,7 +24,7 @@ export const Cells: React.FC<CellsProps> = ({ transactions }) => {
     const highestFailedTotal = useAppSelector(selectHighestFailedTotal);
 
     return (
-        <>
+        <div className="cells-wrapper">
             {extraCells.map((_, index) => <Cell key={index}/>)}
             {
                 transactions !== null && Object.keys(transactions).map(transactionDate => {
@@ -45,6 +45,6 @@ export const Cells: React.FC<CellsProps> = ({ transactions }) => {
                     return <Cell key={transactionDate} backgroundColour={backgroundColour}/>
                 })
             }
-        </>
+        </div>
     )
 }

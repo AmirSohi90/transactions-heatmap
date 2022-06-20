@@ -1,16 +1,32 @@
+.heatmap-wrapper {
+    display: flex;
+}
+
 .cells-wrapper {
     display: inline-flex;
     flex-direction: column;
     flex-wrap: wrap;
-    height: 170px;
+    height: 165px;
 }
 
 .cell {
     height: 15px;
     width: 15px;
     border: 1px solid black;
-    margin: 3px;
+    margin: 2px;
     border-radius: 2px;
+}
+
+.days-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    width: 30px;
+}
+
+.weekday {
+    font-size: 10px;
+    height: 17px;
+    margin: 2px;
 }
 
 .neutral {
