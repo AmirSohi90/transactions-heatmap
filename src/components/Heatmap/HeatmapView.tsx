@@ -16,7 +16,7 @@ export const HeatmapView: React.FC<HeatmapViewProps> = ({ transactions }) => {
             {transactions !== null ?
                 (
                     <>
-                        <Months numberOfDays={Object.keys(transactions).length}/>
+                        <Months/>
                         <div className="heatmap-wrapper">
                             <Days/>
                             <Cells transactions={transactions}/>
